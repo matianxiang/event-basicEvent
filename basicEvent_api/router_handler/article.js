@@ -2,6 +2,23 @@
 const path = require('path')
 const db = require('../db/index')
 
+//获取文章列表处理函数
+exports.getArticleLists = (req,res)=>{
+    //1 定义查询分类列表数据的sql语句 筛选出 is_deleted=0 即未被删除的数据
+    const sql = `select * from ev_articles where is_deleted=0 order by id asc`
+    //2 调用db.query()执行sql语句
+    db.query(sql, (err, results) => {
+        // 1. 执行 SQL 语句失败
+        if (err) return res.cc(err)
+        // 2. 执行 SQL 语句成功
+        res.send({
+            status: 0,
+            message: '获取文章列表成功！',
+            data: results,
+        })
+    })
+}
+
 // 发布新文章的处理函数
 exports.addArticle = (req, res) => {
     // 1 手动判断是否上传了文章封面
