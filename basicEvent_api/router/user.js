@@ -11,11 +11,11 @@ const expressJoi = require('@escook/express-joi')
 //2导入需要验证的规则对象
 const{reg_login_schema} = require('../schema/user')
 
-//注册新用户 注册和登陆使用同一个验证中间件，因为都需要提交用户名和密码
+//注册新用户 注册和登陆使用同一个验证中间件，因为都需要提交用户名和密码 /api/reguser
 router.post('/reguser',expressJoi(reg_login_schema),userHandler.regUser)
 //调用上面定义的验证数据中间件，验证成功则调用userHandler.regUser函数
 
-//登录
+//登录  /api/reguser
 router.post('/login',expressJoi(reg_login_schema),userHandler.login)
 
 module.exports = router

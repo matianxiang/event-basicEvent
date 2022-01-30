@@ -43,11 +43,23 @@ app.use(jwtAuth)
 
 // 导入并注册用户路由模块 user.js
 const userRouter = require('./router/user') 
+// 为注册用户的路由挂载统一的访问前缀
 app.use('/api', userRouter) // 使用postman测试/api/reguser 和 /api/login 是否有效
+
 // 导入并注册用户信息的路由模块 userinfo.js
 const userinfoRouter = require('./router/userinfo')
+// 为用户信息的路由挂载统一的访问前缀
 app.use('/my',userinfoRouter)//使用postman测试/my/userinfo 是否有效
 
+//导入并注册文章分类的路由模块
+const artCateRouter = require('./router/artcate')
+// 为文章分类的路由挂载统一的访问前缀  
+app.use('/my/article', artCateRouter)//使用postman测试/my/article/cates 是否有效
+
+// 导入并使用文章路由模块
+const articleRouter = require('./router/article')
+// 为文章的路由挂载统一的访问前缀 
+app.use('/my/article', articleRouter)//使用postman测试/my/article/add
 
 //定义错误级别的全局中间件 
 app.use((err,req,res,next)=>{
@@ -58,6 +70,9 @@ if (err.name === 'UnauthorizedError')  return res.cc('身份认证失败！')
      //未知错误 
      res.cc(err)
 })
+
+// 托管静态资源文件
+app.use('/uploads', express.static('./uploads'))
 
 //启动服务器
 app.listen(3007,()=>{
